@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tLaText", "tLaText.csproj", "{E5FEEB4C-BAA6-45BD-8A18-D0D00CC8F24A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E5FEEB4C-BAA6-45BD-8A18-D0D00CC8F24A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5FEEB4C-BAA6-45BD-8A18-D0D00CC8F24A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5FEEB4C-BAA6-45BD-8A18-D0D00CC8F24A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5FEEB4C-BAA6-45BD-8A18-D0D00CC8F24A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A50E2BB6-43AE-4769-A455-D5255B74877A}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,3 @@
+displayName = LaText For Terraria
+author = Lacewing
+version = 0.1
