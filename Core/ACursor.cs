@@ -24,15 +24,15 @@ namespace tLaText.Core
         /// <summary>
         /// Get range of selection.
         /// </summary>
-        public Point Selection
+        public Range Selection
         {
             get
             {
                 if (Alt > Cursor)
                 {
-                    return new Point(Cursor, Alt);
+                    return new Range(Cursor, Alt);
                 }
-                return new Point(Alt, Cursor);
+                return new Range(Alt, Cursor);
             }
         }
 

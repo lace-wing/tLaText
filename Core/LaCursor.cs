@@ -16,7 +16,7 @@ namespace tLaText.Core
         /// <summary>
         /// Range of the cursors, cursors can only fall into this range.
         /// </summary>
-        public Point Range { get; private set; }
+        public Range Domain { get; private set; }
         /// <summary>
         /// Color of the cursors.
         /// </summary>
@@ -25,5 +25,19 @@ namespace tLaText.Core
         /// Color of selected areas.
         /// </summary>
         public Color SelectionColor;
+
+        public LaCursor()
+        {
+            Cursors = new List<ACursor>();
+            Domain = new Range(); 
+            CursorColor = Color.White;
+            SelectionColor = Color.Blue;
+        }
+        public LaCursor(List<ACursor> cursors, Color cursorColor, Color selectionColor)
+        {
+            Cursors = cursors;
+            CursorColor = cursorColor;
+            SelectionColor = selectionColor;
+        }
     }
 }
