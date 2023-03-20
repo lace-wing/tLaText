@@ -17,5 +17,13 @@ namespace tLaText.Core
         /// Range of the cursors, cursors can only fall into this range.
         /// </summary>
         public Point Range { get; private set; }
+        /// <summary>
+        /// Color of the cursors.
+        /// </summary>
+        public Color CursorColor;
+        /// <summary>
+        /// Color of selected areas.
+        /// </summary>
+        public Color SelectionColor;
     }
 }

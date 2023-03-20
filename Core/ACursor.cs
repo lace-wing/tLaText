@@ -35,42 +35,16 @@ namespace tLaText.Core
                 return new Point(Alt, Cursor);
             }
         }
-        /// <summary>
-        /// Color of the main cursor.
-        /// </summary>
-        public Color CursorColor;
-        /// <summary>
-        /// Color of selected area.
-        /// </summary>
-        public Color SelectionColor;
 
         public ACursor()
         {
             Cursor = 0;
             Alt = 0;
-            CursorColor = Color.White;
-            SelectionColor = Color.Blue;
         }
-        public ACursor(int main, Color cursorColor = default, Color selectionColor = default)
+        public ACursor(int main)
         {
             this.Cursor = main;
             Alt = main;
-            if (cursorColor == default)
-            {
-                cursorColor = Color.White;
-            }
-            else
-            {
-                CursorColor = cursorColor;
-            }
-            if (selectionColor == default)
-            {
-                selectionColor = Color.Blue;
-            }
-            else
-            {
-                SelectionColor = selectionColor;
-            }
         }
         /// <summary>
         /// Move the selection by <paramref name="length"/>
