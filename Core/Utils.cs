@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,23 +10,34 @@ namespace tLaText.Core
     internal static class Utils
     {
         /// <summary>
-        /// Checks if the Range overlaps with the other Range.
+        /// Checks if an int is within a range.
         /// </summary>
-        /// <param name="r"></param>
-        /// <param name="range"></param>
+        /// <param name="i"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
         /// <returns></returns>
-        public static bool Overlap(this Range r, Range range)
+        public static bool Within(this int i, int min, int max)
         {
-            if (r.Start.Value <= range.Start.Value)
+            return i >= min && i <= max;
+        }
+        /// <summary>
+        /// Checks if the Point overlaps with the other Point when used as ranges.
+        /// </summary>
+        /// <param name="d"></param>
+        /// <param name="domain"></param>
+        /// <returns></returns>
+        public static bool Overlap(this Point d, Point domain)
+        {
+            if (d.X <= domain.X)
             {
-                if (r.Start.Value >= range.Start.Value)
+                if (d.X >= domain.X)
                 {
                     return true;
                 }
             }
-            if (r.Start.Value > range.Start.Value)
+            if (d.X > domain.X)
             {
-                if (r.Start.Value <= range.End.Value)
+                if (d.X <= domain.Y)
                 {
                     return true;
                 }
@@ -33,13 +45,13 @@ namespace tLaText.Core
             return false;
         }
         /// <summary>
-        /// Merges the Range with the other Range.
+        /// Merges the Point with the other point when used as ranges.
         /// </summary>
-        /// <param name="r"></param>
-        /// <param name="range"></param>
-        public static Range MergeWith(this Range r, Range range)
+        /// <param name="d"></param>
+        /// <param name="domain"></param>
+        public static Point MergeWith(this Point d, Point domain)
         {
-            return new Range(Math.Min(r.Start.Value, range.Start.Value), Math.Max(r.End.Value, range.End.Value));
+            return new Point(Math.Min(d.X, domain.X), Math.Max(d.Y, domain.Y));
         }
     }
 }
