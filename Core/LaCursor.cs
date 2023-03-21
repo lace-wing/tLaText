@@ -160,6 +160,20 @@ namespace tLaText.Core
                 Cursors[i].CancelSelection();
             }
         }
+        /// <summary>
+        /// Checks if cursor at Cursors[index] can be moved by <paramref name="dir"/>.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="dir"></param>
+        /// <returns></returns>
+        private bool CanMoveCursor(int index, int dir = 1)
+        {
+            if (Cursors[index].Cursor + dir > Domain.Y || Cursors[index].Cursor + dir < Domain.X)
+            {
+                return false;
+            }
+            return true;
+        }
         #endregion
 
         #region Public functions
@@ -201,6 +215,26 @@ namespace tLaText.Core
             Cursors.Clear();
             cursor = Math.Clamp(cursor, Domain.X, Domain.Y);
             Cursors.Add(new ACursor(cursor));
+        }
+        /// <summary>
+        /// Move all main cursors by <paramref name="length"/>, any cursor will not move if exceeding Domain.
+        /// </summary>
+        /// <param name="length"></param>
+        public void MoveCursors(int length = 1)
+        {
+            int dir = Math.Sign(length);
+            for (int i = 0; i < Cursors.Count; i++)
+            {
+                for (int j = 0; j < length; j++)
+                {
+                    if (!CanMoveCursor(i, dir))
+                    {
+                        break;
+                    }
+                    Cursors[i].MoveCursor(dir);
+                }
+            }
+            CleanCursors();
         }
         #endregion
     }
