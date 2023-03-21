@@ -19,7 +19,7 @@ namespace tLaText.Core
 
         public string Text { get => cache[CIndex] == null ? string.Empty : cache[CIndex]; }
         public string[] Words { get => Text.Split(' '); }
-        public string[] Lines { get => Text.Split("\n"); }
+        public string[] Lines { get => Text.Split('\n'); }
         public int CacheLength { get => cache.Length; }
 
         public LaText()
@@ -36,5 +36,49 @@ namespace tLaText.Core
             CIndex = 0;
             Cursor = new LaCursor(new List<ACursor>(), cursorColor, selectionColor);
         }
+
+        #region Cache
+        /// <summary>
+        /// Move all elements in cache by step, exceeding element will be default
+        /// </summary>
+        /// <param name="step">Can be negative</param>
+        private void MoveCache(int step = 1)
+        {
+            if (cache.Length <= 0 || step == 0)
+            {
+                return;
+            }
+            if (Math.Abs(step) >= cache.Length)
+            {
+                for (int i = 0; i < cache.Length; i++)
+                {
+                    cache[i] = default;
+                }
+                return;
+            }
+            if (step < 0)
+            {
+                for (int i = 0; i < cache.Length + step; i++)
+                {
+                    cache[i] = cache[i - step];
+                }
+                for (int i = -1; i >= step; i--)
+                {
+                    cache[cache.Length + i] = default;
+                }
+            }
+            else
+            {
+                for (int i = cache.Length - 1; i > step - 1; i--)
+                {
+                    cache[i] = cache[i - step];
+                }
+                for (int i = 0; i < step - 1; i++)
+                {
+                    cache[i] = default;
+                }
+            }
+        }
+        #endregion
     }
 }
