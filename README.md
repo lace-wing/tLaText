@@ -17,7 +17,7 @@ LaText for Terraria, tLaText, is a (WIP) text-editing library for Terraria mods 
 tLaText has extendable operations, where commands can be defined and be read from user inputs.
 There can be optional or compulsory parameters, subject to commands.
 
-Many of the commands are based on Vim, such as the <kbd>u</kbd><kbd>h</kbd><kbd>j</kbd><kbd>k</kbd> movements, insert and append.
+Many of the commands are based on Vim, such as the <kbd>u</kbd> <kbd>h</kbd> <kbd>j</kbd> <kbd>k</kbd> movements, insert and append.
 
 ### Cursors
 Although Terraria itself does not support mobile cursor in its text-input system, LaText has an internal cursor system and can be displayed to users. Users can move and add cursor, also select pieces of texts.
