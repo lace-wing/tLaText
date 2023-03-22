@@ -19,8 +19,7 @@ namespace tLaText.Core
 
         public string Text { get => cache[CIndex] == null ? string.Empty : cache[CIndex]; }
         public string[] Words { get => Text.Split(' '); }
-        public string[] Lines { get => Text.Split('\n'); }
-        public int CacheLength { get => cache.Length; }
+        public string[] Lines { get => Text.Split('\n'); } //TODO properly split
 
         public LaText()
         {
@@ -78,6 +77,41 @@ namespace tLaText.Core
                     cache[i] = default;
                 }
             }
+        }
+        #endregion
+
+        #region Undo & redo
+        /// <summary>
+        /// Tries to move cIndex along cache by <paramref name="length"/> then clear Cursor.
+        /// </summary>
+        /// <param name="length">Can be negative (redo).</param>
+        /// <returns>If the movement is successful.</returns>
+        public bool UndoBy(int length = 1)
+        {
+            if (!(CIndex + length).Within(0, cache.Length - 1))
+            {
+                return false;
+            }
+            CIndex += length;
+            Cursor.ClearCursors();
+            return true;
+        }
+
+        /// <summary>
+        /// Tries to undo and clear Cursor.
+        /// </summary>
+        /// <returns>If the undo is successful.</returns>
+        public bool Undo()
+        {
+            return UndoBy();
+        }
+        /// <summary>
+        /// Tries to redo and clear Cursor.
+        /// </summary>
+        /// <returns>If the redo is successful</returns>
+        public bool Redo()
+        {
+            return UndoBy(-1);
         }
         #endregion
     }

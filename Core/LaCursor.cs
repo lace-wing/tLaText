@@ -236,6 +236,13 @@ namespace tLaText.Core
             }
             CleanCursors();
         }
+        /// <summary>
+        /// Clear all cursors.
+        /// </summary>
+        public void ClearCursors()
+        {
+            Cursors.Clear();
+        }
         #endregion
     }
 }
