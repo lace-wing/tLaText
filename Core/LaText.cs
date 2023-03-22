@@ -86,7 +86,7 @@ namespace tLaText.Core
         /// </summary>
         /// <param name="length">Can be negative (redo).</param>
         /// <returns>If the movement is successful.</returns>
-        public bool UndoBy(int length = 1)
+        public bool UndoBy(int length)
         {
             if (!(CIndex + length).Within(0, cache.Length - 1))
             {
@@ -103,7 +103,7 @@ namespace tLaText.Core
         /// <returns>If the undo is successful.</returns>
         public bool Undo()
         {
-            return UndoBy();
+            return UndoBy(1);
         }
         /// <summary>
         /// Tries to redo and clear Cursor.
