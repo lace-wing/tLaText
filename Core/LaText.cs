@@ -39,15 +39,6 @@ namespace tLaText.Core
 
         #region Cursor management
         /// <summary>
-        /// Update Domain using <paramref name="min"/> and <paramref name="max"/>.
-        /// </summary>
-        /// <param name="min"></param>
-        /// <param name="max"></param>
-        private void UpdateDomain(int min, int max)
-        {
-            Cursor.SetDomain(min, max);
-        }
-        /// <summary>
         /// Refresh Cursor status.
         /// </summary>
         private void ResetCursor()
@@ -67,7 +58,16 @@ namespace tLaText.Core
         }
 
         /// <summary>
-        /// 
+        /// Update Domain using <paramref name="min"/> and <paramref name="max"/>.
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        public void UpdateDomain(int min, int max)
+        {
+            Cursor.SetDomain(min, max);
+        }
+        /// <summary>
+        /// Move Cursor by <paramref name="step"/> in direction <paramref name="dir"/>.
         /// </summary>
         /// <param name="step"></param>
         /// <param name="dir"></param>
@@ -77,7 +77,22 @@ namespace tLaText.Core
             dir = Math.Sign(dir);
             Cursor.MoveCursors(step * dir);
         }
-        public void MoveCursorTo(int position)
+        /// <summary>
+        /// Move Cursor by <paramref name="step"/> in direction <paramref name="dir"/>, but does not move alternate cursors.
+        /// </summary>
+        /// <param name="step"></param>
+        /// <param name="dir"></param>
+        public void SelectBy(int step = 1, int dir = 1)
+        {
+            step = Math.Abs(step);
+            dir = Math.Sign(dir);
+            Cursor.MoveCursors(step * dir, true);
+        }
+        /// <summary>
+        /// Clear Cursor then place a cursor at <paramref name="position"/>.
+        /// </summary>
+        /// <param name="position"></param>
+        public void RenewCursorAt(int position)
         {
             position = Math.Clamp(position, Cursor.Domain.X, Cursor.Domain.Y);
             Cursor.RenewCursor(position);

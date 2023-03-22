@@ -220,7 +220,7 @@ namespace tLaText.Core
         /// Move all main cursors by <paramref name="step"/> with cleaning, any cursor will not move if exceeding Domain.
         /// </summary>
         /// <param name="step"></param>
-        public void MoveCursors(int step = 1)
+        public void MoveCursors(int step = 1, bool selection = false)
         {
             int dir = Math.Sign(step);
             for (int i = 0; i < Cursors.Count; i++)
@@ -231,7 +231,7 @@ namespace tLaText.Core
                     {
                         break;
                     }
-                    Cursors[i].MoveCursor(dir);
+                    Cursors[i].MoveCursor(dir, selection ? 0 : dir);
                 }
             }
             CleanCursors();
