@@ -23,12 +23,13 @@ namespace tLaText.Core
 
         public LaText()
         {
-            cache = new string[9];
+            cache = new string[12];
             CIndex = 0;
             Cursor = new LaCursor();
         }
-        public LaText(int cacheLength = 9, Color cursorColor = default, Color selectionColor = default)
+        public LaText(int cacheLength = 12, Color cursorColor = default, Color selectionColor = default)
         {
+            cacheLength = Math.Max(1, cacheLength);
             cursorColor = cursorColor == default ? Color.White : cursorColor;
             selectionColor = selectionColor == default ? Color.Blue : selectionColor;
             cache = new string[cacheLength];
@@ -78,6 +79,17 @@ namespace tLaText.Core
                 }
             }
         }
+        /// <summary>
+        /// Caches <paramref name="text"/> into cache[0] with refreshing.
+        /// </summary>
+        /// <param name="text"></param>
+        private void CacheText(string text)
+        {
+            MoveCache();
+            cache[0] = text;
+            CIndex = 0;
+            Cursor.ClearCursors();
+        }
         #endregion
 
         #region Undo & redo
@@ -96,7 +108,6 @@ namespace tLaText.Core
             Cursor.ClearCursors();
             return true;
         }
-
         /// <summary>
         /// Tries to undo and clear Cursor.
         /// </summary>
