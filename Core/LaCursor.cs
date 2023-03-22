@@ -178,7 +178,7 @@ namespace tLaText.Core
 
         #region Public functions
         /// <summary>
-        /// Set Domain to to given value.
+        /// Set Domain to to given value with cleaning.
         /// </summary>
         /// <param name="min"></param>
         /// <param name="max"></param>
@@ -188,7 +188,7 @@ namespace tLaText.Core
             CleanCursors(true);
         }
         /// <summary>
-        /// Set Domain to to given value.
+        /// Set Domain to to given value with cleaning.
         /// </summary>
         /// <param name="newDomain"></param>
         public void SetDomain(Point newDomain)
@@ -197,7 +197,7 @@ namespace tLaText.Core
             CleanCursors(true);
         }
         /// <summary>
-        /// Add a new cursor.
+        /// Add a new cursor with cleaning.
         /// </summary>
         /// <param name="cursor"></param>
         private void NewCursor(int cursor)
@@ -217,15 +217,15 @@ namespace tLaText.Core
             Cursors.Add(new ACursor(cursor));
         }
         /// <summary>
-        /// Move all main cursors by <paramref name="length"/>, any cursor will not move if exceeding Domain.
+        /// Move all main cursors by <paramref name="step"/> with cleaning, any cursor will not move if exceeding Domain.
         /// </summary>
-        /// <param name="length"></param>
-        public void MoveCursors(int length = 1)
+        /// <param name="step"></param>
+        public void MoveCursors(int step = 1)
         {
-            int dir = Math.Sign(length);
+            int dir = Math.Sign(step);
             for (int i = 0; i < Cursors.Count; i++)
             {
-                for (int j = 0; j < length; j++)
+                for (int j = 0; j < step; j++)
                 {
                     if (!CanMoveCursor(i, dir))
                     {

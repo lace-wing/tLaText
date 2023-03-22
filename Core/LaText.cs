@@ -37,6 +37,53 @@ namespace tLaText.Core
             Cursor = new LaCursor(new List<ACursor>(), cursorColor, selectionColor);
         }
 
+        #region Cursor management
+        /// <summary>
+        /// Update Domain using <paramref name="min"/> and <paramref name="max"/>.
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        private void UpdateDomain(int min, int max)
+        {
+            Cursor.SetDomain(min, max);
+        }
+        /// <summary>
+        /// Refresh Cursor status.
+        /// </summary>
+        private void ResetCursor()
+        {
+            Cursor.ClearCursors();
+            Cursor.SetDomain(0, Text.Length);
+        }
+        /// <summary>
+        /// Refresh Cursor status, set Domain using <paramref name="min"/> and <paramref name="max"/>.
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        private void ResetCursor(int min, int max)
+        {
+            Cursor.ClearCursors();
+            Cursor.SetDomain(min, max);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="step"></param>
+        /// <param name="dir"></param>
+        public void MoveCursorBy(int step = 1, int dir = 1)
+        {
+            step = Math.Abs(step);
+            dir = Math.Sign(dir);
+            Cursor.MoveCursors(step * dir);
+        }
+        public void MoveCursorTo(int position)
+        {
+            position = Math.Clamp(position, Cursor.Domain.X, Cursor.Domain.Y);
+            Cursor.RenewCursor(position);
+        }
+        #endregion
+
         #region Cache
         /// <summary>
         /// Move all elements in cache by step, exceeding element will be default
@@ -88,7 +135,7 @@ namespace tLaText.Core
             MoveCache();
             cache[0] = text;
             CIndex = 0;
-            Cursor.ClearCursors();
+            ResetCursor();
         }
         #endregion
 
@@ -105,7 +152,7 @@ namespace tLaText.Core
                 return false;
             }
             CIndex += length;
-            Cursor.ClearCursors();
+            ResetCursor();
             return true;
         }
         /// <summary>
