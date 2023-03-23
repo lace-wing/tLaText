@@ -2,7 +2,7 @@
 LaText for Terraria, tLaText, is a (WIP) text-editing library for Terraria mods run by tModLoader.
 
 ## Features
-- [ ] What You Type Is What You See, WYTIWYS.
+- [ ] What you type is what you see.
 - [x] Cursor-based editing.
 - [x] Multi-cursor support.
 - [x] Vim-like commands.
