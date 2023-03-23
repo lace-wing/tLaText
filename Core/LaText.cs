@@ -22,6 +22,7 @@ namespace tLaText.Core
         public string[] Words { get => Text.Split(' '); }
         public string[] Lines { get => Text.Split('\n'); } //TODO properly split
 
+        #region Contructors
         public LaText()
         {
             cache = new string[12];
@@ -37,6 +38,7 @@ namespace tLaText.Core
             CIndex = 0;
             Cursor = new LaCursor(new List<ACursor>(), cursorColor, selectionColor);
         }
+        #endregion
 
         #region Cursor management
         /// <summary>
