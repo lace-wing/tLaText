@@ -53,5 +53,37 @@ namespace tLaText.Core
         {
             return new Point(Math.Min(d.X, domain.X), Math.Max(d.Y, domain.Y));
         }
+        /// <summary>
+        /// Clamps each value of the Point using <paramref name="min"/> and <paramref name="max"/>.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
+        public static Point Clamp(this Point p, int min, int max)
+        {
+            return new Point(Math.Clamp(p.X, min, max), Math.Clamp(p.Y, min, max));
+        }
+        /// <summary>
+        /// Clamps each value of the Point using <paramref name="domain"/>.X as min and <paramref name="domain"/>.Y as max.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="domain"></param>
+        /// <returns></returns>
+        public static Point Clamp(this Point p, Point domain)
+        {
+            return new Point(Math.Clamp(p.X, domain.X, domain.Y), Math.Clamp(p.Y, domain.X, domain.Y));
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="addX"></param>
+        /// <param name="addY"></param>
+        /// <returns>A new Point(<paramref name="p"/>.X + <paramref name="addX"/>, <paramref name="p"/>.Y + <paramref name="addY"/>).</returns>
+        public static Point Modify(this Point p, int addX, int addY)
+        {
+            return new Point(p.X + addX, p.Y + addY);
+        }
     }
 }

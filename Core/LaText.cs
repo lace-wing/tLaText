@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -96,6 +97,22 @@ namespace tLaText.Core
         {
             position = Math.Clamp(position, Cursor.Domain.X, Cursor.Domain.Y);
             Cursor.RenewCursor(position);
+        }
+        #endregion
+
+        #region Cursor-text integration
+        /// <summary>
+        /// Get indexes of chars corresponding to main cursor and alternate cursor of Cursor.Cursors[<paramref name="index"/>].
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns>A new Point(index of char at the main cursor, index of char at the alternate cursor).</returns>
+        private Point GetCharIndex(int index)
+        {
+            if (index < 0 || index > Cursor.Cursors.Count)
+            {
+                return new Point(-1, -1);
+            }
+            return Cursor.Cursors[index].Selection.Clamp(Cursor.Domain.Modify(0, -1));
         }
         #endregion
 
