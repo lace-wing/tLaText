@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -29,15 +30,18 @@ namespace tLaText.Core
             return true;
         }
     }
+    
     internal class LaTextParser
     {
         public enum ArgType
         {
+            None,
             Command,
             Text
         }
         public enum CharType
         {
+            Start,
             Literal,
             Escaper,
             Escapee,
@@ -47,7 +51,26 @@ namespace tLaText.Core
             Command,
             CmdSeparator,
             Parameter,
-            ParaSeparator
+            ParaSeparator,
+            End
+        }
+
+        /// <summary>
+        /// Get type of the <paramref name="arg"/>.
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
+        public ArgType GetArgType(string arg)
+        {
+            if (arg == null || arg == string.Empty || arg.Length < 1)
+            {
+                return ArgType.None;
+            }
+            if (arg[0].MatchSpecType(SpecT.SpecType.CmdTrigger))
+            {
+                return ArgType.Command;
+            }
+            return ArgType.Text;
         }
     }
     public static class SpecT
@@ -56,13 +79,64 @@ namespace tLaText.Core
         public static readonly char[] CmdTrigger = new char[] { '.', '。' };
         public static readonly char[] Formatter = new char[] { '*' };
         public static readonly char[] SpacePlaceholder = new char[] { '_' };
+
+        public enum SpecType
+        {
+            Escaper,
+            CmdTrigger,
+            Formatter,
+            SpacePlaceholder
+        }
+
+        /// <summary>
+        /// Get chars belong to the <paramref name="type"/>.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns>A char[0] if no matching char.</returns>
+        public static char[] GetSpecChars(this SpecType type)
+        {
+            switch (type)
+            {
+                case SpecType.Escaper:
+                    return Escaper;
+                case SpecType.CmdTrigger:
+                    return CmdTrigger;
+                case SpecType.Formatter: 
+                    return Formatter;
+                case SpecType.SpacePlaceholder:
+                    return SpacePlaceholder;
+            }
+            return new char[0];
+        }
+        /// <summary>
+        /// Matches <paramref name="spec"/> with types of special chars.
+        /// </summary>
+        /// <param name="spec"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static bool MatchSpecType(this char spec, SpecType type)
+        {
+            foreach (char c in type.GetSpecChars())
+            {
+                if (spec == c)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
     public static class EscT
     {
         public static readonly EscapingText LineFeed = new EscapingText(new char[] { 'n', 'r' }, "\n");
         public static readonly EscapingText Tab = new EscapingText(new char[] { 't' }, "\t");
+        public static EscapingText[] Escapables = new EscapingText[] { };
 
-        private static EscapingText[] GetEscTexts()
+        /// <summary>
+        /// Retrives all EscapingTexts in class EscT.
+        /// </summary>
+        /// <returns></returns>
+        public static EscapingText[] GetEscTexts()
         {
             var fields = Array.FindAll(typeof(EscT).GetFields(BindingFlags.Public | BindingFlags.Static), t => t.IsInitOnly && t.DeclaringType == typeof(EscapingText));
             var result = new List<EscapingText>();
@@ -73,13 +147,12 @@ namespace tLaText.Core
             });
             return result.ToArray();
         }
-
         public static string Escape(char escapee)
         {
-            EscapingText[] escapingTexts = GetEscTexts();
-            for (int i = 0; i < escapingTexts.Length; i++)
+            Escapables = Escapables.Length < 1 ? GetEscTexts() : Escapables;
+            for (int i = 0; i < Escapables.Length; i++)
             {
-                if (escapingTexts[i].TryMatch(escapee, out string output))
+                if (Escapables[i].TryMatch(escapee, out string output))
                 {
                     return output;
                 }
