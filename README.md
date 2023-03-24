@@ -29,3 +29,12 @@ Inherited from Markdown syntax, \*, \_ and other tags surrounding texts will be 
 
 ### Raw & parsed text display
 tLaText provides functions to parse raw texts into Terraria-style texts, then you can output them wherever you want.
+
+## TODO List
+
+- [ ] Cursor movement cinsidering selection range and movement direction.
+- [ ] Inserting text at cursor while considering selection.
+- [ ] Input parser.
+- [ ] Display parser.
+- [ ] tLaText operation.
+- [ ] Reading and running commands.
