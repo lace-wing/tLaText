@@ -25,7 +25,7 @@ Both the cursors and selected areas can be visually shown, and even colored usin
 
 ### Inline formatting tags
 To easily emphasize or understate a text in Terraria without memorizing hex color codes, tLaText's inline formatting tags are more than usefull.
-Inherited from Markdown syntax, \*, \_ and other tags surrounding texts will be automatically parsed into color tags while exported to Terraria-style texts.
+Inherited from Markdown syntax, \*, \~ and other tags surrounding texts will be automatically parsed into color tags while exported to Terraria-style texts.
 
 ### Raw & parsed text display
 tLaText provides functions to parse raw texts into Terraria-style texts, then you can output them wherever you want.
