@@ -16,9 +16,22 @@ namespace tLaText.Core
         /// </summary>
         public List<ACursor> Cursors { get; private set; }
         /// <summary>
+        /// Gets the ACursor at Cursors[index].
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public ACursor this[int index]
+        {
+            get { return Cursors[index]; }
+        }
+        /// <summary>
         /// Range of the cursors, cursors can only fall into this range.
         /// </summary>
         public Point Domain { get => domain; private set { domain.X = value.X; domain.Y = Math.Max(domain.X, value.Y); } }
+        /// <summary>
+        /// Count of Cursors.
+        /// </summary>
+        public int Count => Cursors.Count;
         /// <summary>
         /// Color of the cursors.
         /// </summary>
@@ -217,21 +230,23 @@ namespace tLaText.Core
             Cursors.Add(new ACursor(cursor));
         }
         /// <summary>
-        /// Move all main cursors by <paramref name="step"/> with cleaning, any cursor will not move if exceeding Domain.
+        /// Move all main cursors by <paramref name="length"/> with cleaning, any cursor will not move if exceeding Domain.
+        /// <br>If <paramref name="select"/>, selection will not be canceled.</br>
+        /// <br>While selecting and not keeping selection, the main cursor will go to alternate cursor if appropriate.</br>
         /// </summary>
-        /// <param name="step"></param>
-        public void MoveCursors(int step = 1, bool selection = false)
+        /// <param name="length"></param>
+        /// <param name="select"></param>
+        public void MoveCursors(int length = 1, bool select = false)
         {
-            int dir = Math.Sign(step);
             for (int i = 0; i < Cursors.Count; i++)
             {
-                for (int j = 0; j < step; j++)
+                for (int j = 0; j < length; j++)
                 {
-                    if (!CanMoveCursor(i, dir))
+                    if (!CanMoveCursor(i, Math.Sign(length)))
                     {
                         break;
                     }
-                    Cursors[i].MoveCursor(dir, selection ? 0 : dir);
+                    Cursors[i].CursorMove(length, select);
                 }
             }
             CleanCursors();

@@ -32,7 +32,7 @@ tLaText provides functions to parse raw texts into Terraria-style texts, then yo
 
 ## TODO List
 
-- [ ] Cursor movement cinsidering selection range and movement direction.
+- [x] Cursor movement cinsidering selection range and movement direction.
 - [ ] Inserting text at cursor while considering selection.
 - [ ] Input parser.
 - [ ] Display parser.

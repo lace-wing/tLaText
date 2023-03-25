@@ -67,20 +67,45 @@ namespace tLaText.Core
             }
         }
         /// <summary>
-        /// Move the main cursor by <paramref name="cursor"/> and move the alternate cursor by <paramref name="alt"/>.
+        /// Moves the main cursor by <paramref name="cursor"/> and move the alternate cursor by <paramref name="alt"/>.
         /// </summary>
         /// <param name="cursor"></param>
         /// <param name="alt"></param>
-        public void MoveCursor(int cursor = 0, int alt = 0)
+        private void MoveCursor(int cursor = 0, int alt = 0)
         {
             Cursor += cursor;
             Alt += alt;
         }
         /// <summary>
+        /// Moves the main cursor by <paramref name="length"/>.
+        /// <br>If <paramref name="select"/>, selection will not be canceled.</br>
+        /// <br>While selecting and not keeping selection, the main cursor will go to alternate cursor if appropriate.</br>
+        /// </summary>
+        /// <param name="length"></param>
+        /// <param name="select"></param>
+        public void CursorMove(int length, bool select = false)
+        {
+            if (select)
+            {
+                MoveCursor(length, 0);
+                return;
+            }
+            int dir = Math.Sign(length);
+            if (Math.Sign(Alt - Cursor) == dir)
+            {
+                Cursor = Alt;
+            }
+            else
+            {
+                Alt = Cursor;
+            }
+            MoveCursor(length, length);
+        }
+        /// <summary>
         /// Move the selection by <paramref name="length"/>
         /// </summary>
         /// <param name="length"></param>
-        public void MoveSelection(int length)
+        public void SelectionMove(int length)
         {
             Cursor += length;
             Alt += length;

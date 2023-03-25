@@ -110,11 +110,11 @@ namespace tLaText.Core
         /// <returns>A new Point(index of char at the main cursor, index of char at the alternate cursor).</returns>
         private Point GetCharIndex(int index)
         {
-            if (index < 0 || index > Cursor.Cursors.Count)
+            if (index < 0 || index > Cursor.Count)
             {
                 return new Point(-1, -1);
             }
-            return Cursor.Cursors[index].Selection.Clamp(Cursor.Domain.Modify(0, -1));
+            return Cursor[index].Selection.Clamp(Cursor.Domain.Modify(0, -1));
         }
         #endregion
 
@@ -204,6 +204,23 @@ namespace tLaText.Core
         public bool Redo()
         {
             return UndoBy(-1);
+        }
+        #endregion
+
+        #region Text editing
+        /// <summary>
+        /// Insert <paramref name="text"/> at Cursors[<paramref name="index"/>], will replace selected text.
+        /// <br>Cached.</br>
+        /// </summary>
+        /// <param name="text"></param>
+        public void Insert(string text, int index) //TODO test
+        {
+            string nt = Text;
+            Point range = GetCharIndex(index);
+            nt = nt.Remove(range.X, range.Sub());
+            nt = nt.Insert(range.X, text);
+            CacheText(nt);
+            Cursor.MoveCursors(text.Length - GetCharIndex(index).Sub(), Cursor[index].Selecting);
         }
         #endregion
     }

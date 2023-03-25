@@ -85,5 +85,15 @@ namespace tLaText.Core
         {
             return new Point(p.X + addX, p.Y + addY);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="inverse"></param>
+        /// <returns>Point.X - Point.Y or Point.Y - Point.X if <paramref name="inverse"/></returns>
+        public static int Sub(this Point p, bool inverse = false)
+        {
+            return inverse ? p.Y - p.X : p.X - p.Y;
+        }
     }
 }
