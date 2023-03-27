@@ -92,6 +92,14 @@ namespace tLaText.Core
             Cursor.MoveCursors(step * dir, true);
         }
         /// <summary>
+        /// Clears all cursors, then adds a new one, selects from Domain.X to Domain.Y.
+        /// </summary>
+        public void SelectAll()
+        {
+            RenewCursorAt(Cursor.Domain.X);
+            SelectBy(Cursor.Domain.Sub());
+        }
+        /// <summary>
         /// Clear Cursor then place a cursor at <paramref name="position"/>.
         /// </summary>
         /// <param name="position"></param>
@@ -166,7 +174,7 @@ namespace tLaText.Core
         /// <param name="text"></param>
         private void CacheText(string text)
         {
-            MoveCache();
+            MoveCache(-CIndex + 1);
             cache[0] = text;
             CIndex = 0;
             ResetCursor();
@@ -221,6 +229,22 @@ namespace tLaText.Core
             nt = nt.Insert(range.X, text);
             CacheText(nt);
             Cursor.MoveCursors(text.Length - GetCharIndex(index).Sub(), Cursor[index].Selecting);
+        }
+        /// <summary>
+        /// Insert <paramref name="text"/> at all cursors, will replace selected text.
+        /// </summary>
+        /// <param name="text"></param>
+        public void InsertAll(string text) //TODO test
+        {
+            string nt = Text;
+            for (int i = 0; i < Cursor.Count; i++)
+            {
+                Point range = GetCharIndex(i);
+                nt = nt.Remove(range.X, range.Sub());
+                nt = nt.Insert(range.X, text);
+                Cursor.MoveCursors(text.Length - GetCharIndex(i).Sub(), Cursor[i].Selecting);
+            }
+            CacheText(nt);
         }
         #endregion
     }
