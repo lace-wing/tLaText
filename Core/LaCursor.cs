@@ -236,9 +236,32 @@ namespace tLaText.Core
         /// </summary>
         /// <param name="length"></param>
         /// <param name="select"></param>
-        public void MoveCursors(int length = 1, bool select = false)
+        public void MoveAllCursors(int length = 1, bool select = false)
         {
             for (int i = 0; i < Cursors.Count; i++)
+            {
+                for (int j = 0; j < length; j++)
+                {
+                    if (!CanMoveCursor(i, Math.Sign(length)))
+                    {
+                        break;
+                    }
+                    Cursors[i].CursorMove(length, select);
+                }
+            }
+            CleanCursors();
+        }
+        /// <summary>
+        /// Move main cursors at and after Cursors[<paramref name="index"/>] by <paramref name="length"/> with cleaning, any cursor will not move if exceeding Domain.
+        /// <br>If <paramref name="select"/>, selection will not be canceled.</br>
+        /// <br>While selecting and not keeping selection, the main cursor will go to alternate cursor if appropriate.</br>
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="length"></param>
+        /// <param name="select"></param>
+        public void MoveThisAndLaterCursors(int index, int length = 1, bool select = false)
+        {
+            for (int i = index; i < Cursors.Count; i++)
             {
                 for (int j = 0; j < length; j++)
                 {

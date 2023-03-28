@@ -78,7 +78,7 @@ namespace tLaText.Core
         {
             step = Math.Abs(step);
             dir = Math.Sign(dir);
-            Cursor.MoveCursors(step * dir);
+            Cursor.MoveAllCursors(step * dir);
         }
         /// <summary>
         /// Move Cursor by <paramref name="step"/> in direction <paramref name="dir"/>, but does not move alternate cursors.
@@ -89,7 +89,7 @@ namespace tLaText.Core
         {
             step = Math.Abs(step);
             dir = Math.Sign(dir);
-            Cursor.MoveCursors(step * dir, true);
+            Cursor.MoveAllCursors(step * dir, true);
         }
         /// <summary>
         /// Clears all cursors, then adds a new one, selects from Domain.X to Domain.Y.
@@ -177,7 +177,7 @@ namespace tLaText.Core
             MoveCache(-CIndex + 1);
             cache[0] = text;
             CIndex = 0;
-            ResetCursor();
+            UpdateDomain(0, Text.Length);
         }
         #endregion
 
@@ -189,7 +189,7 @@ namespace tLaText.Core
         /// <returns>If the movement is successful.</returns>
         public bool UndoBy(int length)
         {
-            if (!(CIndex + length).Within(0, cache.Length - 1))
+            if (!(CIndex + length).Within(0, cache.Length - 1) || cache[CIndex + length] == default)
             {
                 return false;
             }
@@ -221,20 +221,20 @@ namespace tLaText.Core
         /// <br>Cached.</br>
         /// </summary>
         /// <param name="text"></param>
-        public void Insert(string text, int index) //TODO test
+        public void InsertAt(string text, int index) //TODO test
         {
             string nt = Text;
             Point range = GetCharIndex(index);
             nt = nt.Remove(range.X, range.Sub());
             nt = nt.Insert(range.X, text);
             CacheText(nt);
-            Cursor.MoveCursors(text.Length - GetCharIndex(index).Sub(), Cursor[index].Selecting);
+            Cursor.MoveThisAndLaterCursors(index, text.Length - GetCharIndex(index).Sub(), Cursor[index].Selecting);
         }
         /// <summary>
         /// Insert <paramref name="text"/> at all cursors, will replace selected text.
         /// </summary>
         /// <param name="text"></param>
-        public void InsertAll(string text) //TODO test
+        public void Insert(string text) //TODO test
         {
             string nt = Text;
             for (int i = 0; i < Cursor.Count; i++)
@@ -242,7 +242,40 @@ namespace tLaText.Core
                 Point range = GetCharIndex(i);
                 nt = nt.Remove(range.X, range.Sub());
                 nt = nt.Insert(range.X, text);
-                Cursor.MoveCursors(text.Length - GetCharIndex(i).Sub(), Cursor[i].Selecting);
+                UpdateDomain(0, nt.Length);
+                Cursor.MoveThisAndLaterCursors(i, text.Length - range.Sub(), Cursor[i].Selecting);
+            }
+            CacheText(nt);
+        }
+        /// <summary>
+        /// Deletes text at Cursor[<paramref name="index"/>].
+        /// <br>If not selecting, deletes char at its left side.</br>
+        /// <br>If selecting, deletes text in the selection.</br>
+        /// </summary>
+        /// <param name="index"></param>
+        public void DeleteAt(int index)
+        {
+            string nt = Text;
+            Point range = GetCharIndex(index);
+            int count = range.Sub() == 0 ? 1 : range.Sub();
+            nt = nt.Remove(range.Y - count, count);
+            Cursor.MoveThisAndLaterCursors(index, -count);
+            CacheText(nt);
+        }
+        /// <summary>
+        /// Deletes text at Cursor.
+        /// <br>If not selecting, deletes char at its left side.</br>
+        /// <br>If selecting, deletes text in the selection.</br>
+        /// </summary>
+        public void Delete()
+        {
+            string nt = Text;
+            for (int i = 0; i < Cursor.Count; i++)
+            {
+                Point range = GetCharIndex(i);
+                int count = range.Sub() == 0 ? 1 : range.Sub();
+                nt = nt.Remove(range.Y - count, count);
+                Cursor.MoveThisAndLaterCursors(i, -count);
             }
             CacheText(nt);
         }
