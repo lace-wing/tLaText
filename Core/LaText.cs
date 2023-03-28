@@ -70,36 +70,6 @@ namespace tLaText.Core
             Cursor.SetDomain(min, max);
         }
         /// <summary>
-        /// Move Cursor by <paramref name="step"/> in direction <paramref name="dir"/>.
-        /// </summary>
-        /// <param name="step"></param>
-        /// <param name="dir"></param>
-        public void MoveCursorBy(int step = 1, int dir = 1)
-        {
-            step = Math.Abs(step);
-            dir = Math.Sign(dir);
-            Cursor.MoveAllCursors(step * dir);
-        }
-        /// <summary>
-        /// Move Cursor by <paramref name="step"/> in direction <paramref name="dir"/>, but does not move alternate cursors.
-        /// </summary>
-        /// <param name="step"></param>
-        /// <param name="dir"></param>
-        public void SelectBy(int step = 1, int dir = 1)
-        {
-            step = Math.Abs(step);
-            dir = Math.Sign(dir);
-            Cursor.MoveAllCursors(step * dir, true);
-        }
-        /// <summary>
-        /// Clears all cursors, then adds a new one, selects from Domain.X to Domain.Y.
-        /// </summary>
-        public void SelectAll()
-        {
-            RenewCursorAt(Cursor.Domain.X);
-            SelectBy(Cursor.Domain.Sub());
-        }
-        /// <summary>
         /// Clear Cursor then place a cursor at <paramref name="position"/>.
         /// </summary>
         /// <param name="position"></param>

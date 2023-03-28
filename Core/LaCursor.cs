@@ -275,6 +275,14 @@ namespace tLaText.Core
             CleanCursors();
         }
         /// <summary>
+        /// Clear all cursors, then add one, select the entire Domain.
+        /// </summary>
+        public void SelectAll()
+        {
+            RenewCursor(Domain.X);
+            MoveAllCursors(Domain.Sub(), true);
+        }
+        /// <summary>
         /// Clear all cursors.
         /// </summary>
         public void ClearCursors()

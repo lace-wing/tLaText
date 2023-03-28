@@ -33,12 +33,6 @@ namespace tLaText.Core
     
     internal class LaTextParser
     {
-        public enum ArgType
-        {
-            None,
-            Command,
-            Text
-        }
         public enum CharType
         {
             Start,
@@ -53,24 +47,6 @@ namespace tLaText.Core
             Parameter,
             ParaSeparator,
             End
-        }
-
-        /// <summary>
-        /// Get type of the <paramref name="arg"/>.
-        /// </summary>
-        /// <param name="arg"></param>
-        /// <returns></returns>
-        public ArgType GetArgType(string arg)
-        {
-            if (arg == null || arg == string.Empty || arg.Length < 1)
-            {
-                return ArgType.None;
-            }
-            if (arg[0].MatchSpecType(SpecT.SpecType.CmdTrigger))
-            {
-                return ArgType.Command;
-            }
-            return ArgType.Text;
         }
     }
     public static class SpecT
